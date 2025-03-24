@@ -7,6 +7,10 @@ try:
     cursor = conn.cursor()
     print("DB INIT")
 
+    # Write a query and execute it with cursor
+    query = "SELECT * FROM MOVIE"
+    cursor.execute(query)
+
     # Fetch and output result
     results = cursor.fetchall()
     print(results)
