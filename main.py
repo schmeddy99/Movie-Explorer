@@ -54,6 +54,10 @@ try:
         csvreader = csv.reader(movieData)
         next(csvreader)
         for row in csvreader:
+            row = [
+                col.replace("\xa0", " ").strip() if isinstance(col, str) else col
+                for col in row
+            ]
 
             cursor.execute(
                 """
@@ -91,6 +95,7 @@ try:
             """,
                 row,
             )
+            # print(f"INSERT INTO MOVIE VALUES {tuple(row)};")
 
     # Write a query and execute it with cursor
     query = "SELECT movie_title FROM MOVIE LIMIT 5"
