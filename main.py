@@ -93,7 +93,7 @@ try:
             )
 
     # Write a query and execute it with cursor
-    query = "SELECT * FROM MOVIE"
+    query = "SELECT movie_title FROM MOVIE LIMIT 5"
     cursor.execute(query)
 
     # Fetch and output result
