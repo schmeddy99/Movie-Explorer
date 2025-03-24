@@ -8,6 +8,9 @@ try:
     cursor = conn.cursor()
     print("DB INIT")
 
+    # Drop table if it exists
+    cursor.execute("DROP TABLE IF EXISTS MOVIE")
+
     # Create the table if it doesn't exist (optional)
     cursor.execute(
         """
