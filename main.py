@@ -101,6 +101,10 @@ try:
     query = "SELECT movie_title FROM MOVIE LIMIT 5"
     cursor.execute(query)
 
+    # Write a query to print the column names
+    column_names = [col[0] for col in cursor.description]
+    print(column_names)
+
     # Fetch and output result
     results = cursor.fetchall()
     print(results)
