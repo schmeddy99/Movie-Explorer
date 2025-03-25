@@ -15,9 +15,27 @@ def main_menu(conn):
         #    - Show user options
         #    - Use input() to get choice
         # ------------------------------
-        input(
-            "Choose an option:\n 1. Search by title\n 2. Search by director\n 3. Filter by genre\n 4. Filter by year\n 5. Filter by rating\n 6. Exit"
+        option = input(
+            "Choose an option:\n "
+            "1. Search by title\n "
+            "2. Search by director\n "
+            "3. Filter by genre\n "
+            "4. Filter by year\n "
+            "5. Filter by rating\n "
+            "6. Exit\n"
+            "Command: "
         )
+        if option == "1":
+            title = input("Enter a movie title to search: ")
+            results = queries.search_by_title(conn, title)
+            print(results)
+        elif option == "2":
+            director = input("Enter a director to search: ")
+            results = queries.search_by_director(conn, director)
+            print(results)
+        elif option == "6":
+            print("Goodbye")
+            break
 
 
 # ------------------------------
