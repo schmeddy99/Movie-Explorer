@@ -1,5 +1,7 @@
 import csv
 
+# Creates the database schema and imports data from the CSV file.
+
 
 def create_and_populate_db(conn):
     cursor = conn.cursor()

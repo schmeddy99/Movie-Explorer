@@ -4,6 +4,8 @@ import sqlite3
 import queries
 import import_data
 
+# Main entry point for running the CLI movie search tool.
+
 
 def main_menu(conn):
     while True:
