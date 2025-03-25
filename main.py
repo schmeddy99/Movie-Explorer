@@ -3,6 +3,7 @@ import sqlite3
 
 import queries
 import import_data
+import schema
 
 # Main entry point for running the CLI movie search tool.
 
@@ -45,7 +46,8 @@ try:
     # Connect to DB and create a cursor
     conn = sqlite3.connect("movie.db")
 
-    import_data.create_and_populate_db(conn)
+    schema.create_movie_table(conn)
+    import_data.populate_db(conn)
 
     main_menu(conn)
     # ------------------------------
