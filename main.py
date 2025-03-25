@@ -30,25 +30,26 @@ def main_menu(conn):
         if option == "1":
             title = input("Enter a movie title to search: ")
             results = queries.search_by_title(conn, title)
-            print(results)
+            utils.print_results(results)
         elif option == "2":
             director = input("Enter a director to search: ")
             results = queries.search_by_director(conn, director)
-            print(results)
+            utils.print_results(results)
         elif option == "3":
             genre = input("Enter a genre: ")
             results = queries.search_by_genre(conn, genre)
-            print(results)
+            utils.print_results(results)
         elif option == "4":
             year = input("Enter a year: ")
             if not year.isdigit():
                 print("Please enter a valid year.")
                 continue
             results = queries.search_by_year(conn, int(year))
+            utils.print_results(results)
         elif option == "5":
             rating = int(input("Enter a minimum rating: "))
             results = queries.search_by_rating_threshold(conn, rating)
-            print(results)
+            utils.print_results(results)
         elif option == "6":
             print("Goodbye")
             break
