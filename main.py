@@ -41,8 +41,10 @@ def main_menu(conn):
             print(results)
         elif option == "4":
             year = input("Enter a year: ")
-            results = queries.search_by_year(conn, year)
-            print(results)
+            if not year.isdigit():
+                print("Please enter a valid year.")
+                continue
+            results = queries.search_by_year(conn, int(year))
         elif option == "5":
             rating = int(input("Enter a minimum rating: "))
             results = queries.search_by_rating_threshold(conn, rating)
