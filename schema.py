@@ -3,45 +3,102 @@ import sqlite3
 # Contains all CREATE TABLE statements
 
 
-def create_movie_table(conn):
-    cursor = conn.cursor()
-    # Drop table if it exists
-    cursor.execute("DROP TABLE IF EXISTS MOVIE")
+def create_all_tables(conn):
+    create_directors_table(conn)
+    create_actors_table(conn)
+    create_movies_table(conn)
+    create_genres_table(conn)
+    create_movie_actors_table(conn)
+    create_movie_genres_table(conn)
 
-    # Create the table if it doesn't exist (optional)
+
+def create_movies_table(conn):
+    cursor = conn.cursor()
     cursor.execute(
         """
-        CREATE TABLE IF NOT EXISTS MOVIE (
+        CREATE TABLE IF NOT EXISTS movies (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            color TEXT,
-            director_name TEXT,
-            num_critic_for_reviews INTEGER,
-            duration INTEGER,
-            director_facebook_likes INTEGER,
-            actor_3_facebook_likes INTEGER,
-            actor_2_name TEXT,
-            actor_1_facebook_likes INTEGER,
-            gross INTEGER,
-            genres TEXT,
-            actor_1_name TEXT,
-            movie_title TEXT,
-            num_voted_users INTEGER,
-            cast_total_facebook_likes INTEGER,
-            actor_3_name TEXT,
-            facenumber_in_poster INTEGER,
-            plot_keywords TEXT,
-            movie_imdb_link TEXT,
-            num_user_for_reviews INTEGER,
-            language TEXT,
-            country TEXT,
-            content_rating TEXT,
-            budget INTEGER,
-            title_year INTEGER,
-            actor_2_facebook_likes INTEGER,
+            title TEXT NOT NULL,
+            year INTEGER,
             imdb_score REAL,
-            aspect_ratio REAL,
-            movie_facebook_likes INTEGER
-        )
+            gross INTEGER,
+            duration INTEGER,
+            budget INTEGER,
+            content_rating TEXT,
+            country TEXT,
+            language TEXT,
+            color TEXT,
+            director_id INTEGER,
+            FOREIGN KEY (director_id) REFERENCES directors(id)
+        );
+    """
+    )
 
+
+def create_directors_table(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS directors (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            facebook_likes INTEGER
+        );
+    """
+    )
+
+
+def create_actors_table(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS actors (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            facebook_likes INTEGER
+        );
+    """
+    )
+
+
+def create_movie_actors_table(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS movie_actors (
+            movie_id INTEGER,
+            actor_id INTEGER,
+            role_order INTEGER,
+            PRIMARY KEY (movie_id, actor_id),
+            FOREIGN KEY (movie_id) REFERENCES movies(id),
+            FOREIGN KEY (actor_id) REFERENCES actors(id)
+        );
+    """
+    )
+
+
+def create_genres_table(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS genres (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE
+        );
+    """
+    )
+
+
+def create_movie_genres_table(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS movie_genres (
+            movie_id INTEGER,
+            genre_id INTEGER,
+            PRIMARY KEY (movie_id, genre_id),
+            FOREIGN KEY (movie_id) REFERENCES movies(id),
+            FOREIGN KEY (genre_id) REFERENCES genres(id)
+        );
     """
     )

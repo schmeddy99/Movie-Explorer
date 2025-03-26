@@ -64,7 +64,7 @@ try:
     # Connect to DB and create a cursor
     conn = utils.connect_db()
 
-    schema.create_movie_table(conn)
+    schema.create_all_tables(conn)
     import_data.populate_db(conn)
 
     main_menu(conn)
