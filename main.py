@@ -35,44 +35,45 @@ def main_menu(conn):
 
 
 def search_menu(conn):
-    search_choice = input(
-        "Choose an option:\n "
-        "1. Search by title\n "
-        "2. Search by director\n "
-        "3. Filter by genre\n "
-        "4. Filter by year\n "
-        "5. Filter by rating\n "
-        "6. Exit\n"
-        "Command: "
-    )
-    if search_choice == "1":
-        title = input("Enter a movie title to search: ")
-        results = queries.search_by_title(conn, title)
-        utils.print_results(results)
-    elif search_choice == "2":
-        director = input("Enter a director to search: ")
-        results = queries.search_by_director(conn, director)
-        utils.print_results(results)
-    elif search_choice == "3":
-        genre = input("Enter a genre: ")
-        results = queries.search_by_genre(conn, genre)
-        utils.print_results(results)
-    elif search_choice == "4":
-        year = input("Enter a year: ")
-        if not year.isdigit():
-            print("Please enter a valid year.")
-            continue
-        results = queries.search_by_year(conn, int(year))
-        utils.print_results(results)
-    elif search_choice == "5":
-        rating = int(input("Enter a minimum rating: "))
-        results = queries.search_by_rating_threshold(conn, rating)
-        utils.print_results(results)
-    elif search_choice == "6":
-        print("Goodbye")
-        break
-    else:
-        print("Invalid selection. Please try again. ")
+    while True:
+        search_choice = input(
+            "Choose an option:\n "
+            "1. Search by title\n "
+            "2. Search by director\n "
+            "3. Filter by genre\n "
+            "4. Filter by year\n "
+            "5. Filter by rating\n "
+            "6. Exit\n"
+            "Command: "
+        )
+        if search_choice == "1":
+            title = input("Enter a movie title to search: ")
+            results = queries.search_by_title(conn, title)
+            utils.print_results(results)
+        elif search_choice == "2":
+            director = input("Enter a director to search: ")
+            results = queries.search_by_director(conn, director)
+            utils.print_results(results)
+        elif search_choice == "3":
+            genre = input("Enter a genre: ")
+            results = queries.search_by_genre(conn, genre)
+            utils.print_results(results)
+        elif search_choice == "4":
+            year = input("Enter a year: ")
+            if not year.isdigit():
+                print("Please enter a valid year.")
+                continue
+            results = queries.search_by_year(conn, int(year))
+            utils.print_results(results)
+        elif search_choice == "5":
+            rating = int(input("Enter a minimum rating: "))
+            results = queries.search_by_rating_threshold(conn, rating)
+            utils.print_results(results)
+        elif search_choice == "6":
+            print("Goodbye")
+            break
+        else:
+            print("Invalid selection. Please try again. ")
 
 
 def insights_menu(conn):
