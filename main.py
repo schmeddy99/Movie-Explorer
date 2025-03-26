@@ -70,7 +70,7 @@ def search_menu(conn):
             results = queries.search_by_rating_threshold(conn, rating)
             utils.print_results(results)
         elif search_choice == "6":
-            print("Goodbye")
+            main_menu(conn)
             break
         else:
             print("Invalid selection. Please try again. ")
