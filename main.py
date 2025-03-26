@@ -6,9 +6,8 @@ import import_data
 import schema
 import utils
 
+
 # Main entry point for running the CLI movie search tool.
-
-
 def main_menu(conn):
     while True:
 
@@ -70,14 +69,53 @@ def search_menu(conn):
             results = queries.search_by_rating_threshold(conn, rating)
             utils.print_results(results)
         elif search_choice == "6":
-            main_menu(conn)
             break
         else:
             print("Invalid selection. Please try again. ")
 
 
 def insights_menu(conn):
-    print("Insights menu is coming soon!")
+    while True:
+        insights_choice = input(
+            "\n--- Movie Insights ---\n"
+            "a. Top rated movies\n"
+            "b. Average rating by genre\n"
+            "c. Movies per decade\n"
+            "d. Most frequent director\n"
+            "e. Average gross by country\n"
+            "f. Back to main menu\n"
+            "Command: "
+        )
+
+        if insights_choice == "a":
+            limit = input("How many top-rated movies do you want to see? ")
+            if not limit.isdigit():
+                print("Please enter a valid number.")
+                continue
+            results = queries.get_top_rated_movies(conn, int(limit))
+            utils.print_results(results)
+
+        elif insights_choice == "b":
+            results = queries.get_average_rating_by_genre(conn)
+            utils.print_results(results)
+
+        elif insights_choice == "c":
+            results = queries.get_movies_per_decade(conn)
+            utils.print_results(results)
+
+        elif insights_choice == "d":
+            results = queries.most_frequent_director(conn)
+            utils.print_results(results)
+
+        elif insights_choice == "e":
+            results = queries.get_avg_gross_by_country(conn)
+            utils.print_results(results)
+
+        elif insights_choice == "f":
+            break
+
+        else:
+            print("Invalid selection. Please try again.")
 
 
 # ------------------------------
