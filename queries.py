@@ -48,3 +48,21 @@ def search_by_rating_threshold(conn, min_rating):
         (min_rating,),
     )
     return cursor.fetchall()
+
+
+def get_top_rated_movies(conn, limit):
+    cursor = conn.cursor()
+    cursor.execute(
+        ""
+        "SELECT movie_title, genres, imdb_score from MOVIE ORDER BY imdb_score DESC LIMIT ?",
+        (limit,),
+    )
+    return cursor.fetchall()
+
+
+def get_average_rating_by_genre(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT genres, AVG(imdb_score) from MOVIE GROUP BY genres ORDER BY AVG(imdb_score) DESC"
+    )
+    return cursor.fetchall()
