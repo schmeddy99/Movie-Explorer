@@ -65,15 +65,14 @@ try:
     conn = utils.connect_db()
 
     schema.create_all_tables(conn)
-    import_data.populate_db(conn)
+    import_data.populate_normalized_db(conn)
 
-    main_menu(conn)
     # ------------------------------
     # 3. Handle user input
     #    - Call appropriate function from queries.py
     #    - Ask for any needed input (e.g., title, director, genre)
     # ------------------------------
-
+    main_menu(conn)
 
 # ------------------------------
 # 4. Print results
