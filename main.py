@@ -27,7 +27,7 @@ def main_menu(conn):
         if menu_choice == "1":
             search_menu(conn)
         elif menu_choice == "2":
-            insights_menu()
+            insights_menu(conn)
         elif menu_choice == "3":
             break
         else:
@@ -73,6 +73,10 @@ def search_menu(conn):
         break
     else:
         print("Invalid selection. Please try again. ")
+
+
+def insights_menu(conn):
+    print("Insights menu is coming soon!")
 
 
 # ------------------------------
