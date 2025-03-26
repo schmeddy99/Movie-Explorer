@@ -66,3 +66,27 @@ def get_average_rating_by_genre(conn):
         "SELECT genres, AVG(imdb_score) from MOVIE GROUP BY genres ORDER BY AVG(imdb_score) DESC"
     )
     return cursor.fetchall()
+
+
+def get_movies_per_decade(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT (title_year / 10) * 10 AS decade,COUNT(*) FROM MOVIE WHERE title_year IS NOT NULL GROUP BY decade ORDER BY decade ASC"
+    )
+    return cursor.fetchall()
+
+
+def most_frequent_director(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT director_name, COUNT(*) AS movie_count from MOVIE WHERE director_name IS NOT NULL GROUP BY director_name ORDER BY movie_count DESC LIMIT 1"
+    )
+    return cursor.fetchall()
+
+
+def get_avg_gross_by_country(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT country, AVG(gross) from MOVIE WHERE gross IS NOT NULL GROUP BY country ORDER BY AVG(gross) DESC"
+    )
+    return cursor.fetchall()
