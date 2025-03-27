@@ -102,4 +102,4 @@ def count_words_in_titles(conn):
         if title:
             word_count += len(title.split())
 
-    return word_count
+    return word_count or 0
