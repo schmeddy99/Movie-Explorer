@@ -1,8 +1,9 @@
 import sqlite3
 from collections import Counter
 
-
-# Fun queries for random movie discovery
+# --------------------------------------------
+# Fun queries for random or playful exploration
+# --------------------------------------------
 
 
 def get_random_movie(conn):
@@ -10,6 +11,7 @@ def get_random_movie(conn):
     Returns one random movie from the database.
     """
     cursor = conn.cursor()
+    # Select a random movie from the entire table
     cursor.execute(
         "SELECT title, year, imdb_score FROM movies ORDER BY RANDOM() LIMIT 1"
     )
@@ -21,6 +23,7 @@ def get_random_movie_by_genre(conn, genre):
     Returns a random movie where the genre matches the input.
     """
     cursor = conn.cursor()
+    # Joins genres and movies, filters by genre, and selects a random match
     cursor.execute(
         """
         SELECT m.title, m.year, m.imdb_score
@@ -40,6 +43,7 @@ def get_random_movie_by_decade(conn, decade_start):
     Returns a random movie from the specified decade start year (e.g. 1990).
     """
     cursor = conn.cursor()
+    # Filters movies between decade_start and decade_start+9, then selects one at random
     cursor.execute(
         """
         SELECT title, year, imdb_score
@@ -57,6 +61,7 @@ def get_longest_movie_title(conn):
     Returns the movie with the longest title (by character length).
     """
     cursor = conn.cursor()
+    # Orders movies by length of title and picks the longest one
     cursor.execute(
         """
         SELECT title, LENGTH(title) as title_length
@@ -78,13 +83,16 @@ def get_most_common_genre_word(conn):
     genres = cursor.fetchall()
 
     words = []
+    # Split genre names into individual words
     for (genre,) in genres:
         if genre:
             words.extend(genre.lower().split())
 
+    # If list is empty, return nothing
     if not words:
         return []
 
+    # Use Counter to find the most frequent word
     most_common = Counter(words).most_common(1)
     return most_common  # Returns list of (word, count)
 
@@ -98,8 +106,9 @@ def count_words_in_titles(conn):
     titles = cursor.fetchall()
 
     word_count = 0
+    # Split each title into words and count them
     for (title,) in titles:
         if title:
             word_count += len(title.split())
 
-    return word_count or 0
+    return word_count or 0  # Always return a number
