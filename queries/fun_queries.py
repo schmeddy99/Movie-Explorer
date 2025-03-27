@@ -53,13 +53,17 @@ def get_random_movie_by_decade(conn, decade_start):
 
 
 def get_longest_movie_title(conn):
+    """
+    Returns the movie with the longest title (by character length).
+    """
     cursor = conn.cursor()
     cursor.execute(
         """
-    "SELECT title, LENGTH(title) as title_length"
-    "FROM movies "
-    "ORDER BY title_length DESC LIMIT 1""
-    """
+        SELECT title, LENGTH(title) as title_length
+        FROM movies
+        ORDER BY title_length DESC
+        LIMIT 1
+        """
     )
     return cursor.fetchall()
 
