@@ -70,7 +70,7 @@ movie_project/
 1. Clone this repo:
 
 ```bash
-git clone https://github.com/yourusername/movie-explorer.git
+git clone https://github.com/schmeddy99/Movie-Explorer.git
 cd movie-explorer
 ```
 
