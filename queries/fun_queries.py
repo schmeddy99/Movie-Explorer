@@ -1,9 +1,12 @@
 import sqlite3
 from collections import Counter
 
-# --------------------------------------------
-# Fun queries for random or playful exploration
-# --------------------------------------------
+# -------------------------------------------------------------
+# fun_queries.py
+# -------------------------------------------------------------
+# Contains playful and exploratory SQL queries for discovering
+# random movies, long titles, genre word trends, and fun stats.
+# -------------------------------------------------------------
 
 
 def get_random_movie(conn):
@@ -11,7 +14,6 @@ def get_random_movie(conn):
     Returns one random movie from the database.
     """
     cursor = conn.cursor()
-    # Select a random movie from the entire table
     cursor.execute(
         "SELECT title, year, imdb_score FROM movies ORDER BY RANDOM() LIMIT 1"
     )
@@ -20,10 +22,9 @@ def get_random_movie(conn):
 
 def get_random_movie_by_genre(conn, genre):
     """
-    Returns a random movie where the genre matches the input.
+    Returns a random movie from a given genre.
     """
     cursor = conn.cursor()
-    # Joins genres and movies, filters by genre, and selects a random match
     cursor.execute(
         """
         SELECT m.title, m.year, m.imdb_score
@@ -40,10 +41,9 @@ def get_random_movie_by_genre(conn, genre):
 
 def get_random_movie_by_decade(conn, decade_start):
     """
-    Returns a random movie from the specified decade start year (e.g. 1990).
+    Returns a random movie from a specific decade (e.g., 1990s).
     """
     cursor = conn.cursor()
-    # Filters movies between decade_start and decade_start+9, then selects one at random
     cursor.execute(
         """
         SELECT title, year, imdb_score
@@ -58,13 +58,12 @@ def get_random_movie_by_decade(conn, decade_start):
 
 def get_longest_movie_title(conn):
     """
-    Returns the movie with the longest title (by character length).
+    Returns the movie with the longest title by character count.
     """
     cursor = conn.cursor()
-    # Orders movies by length of title and picks the longest one
     cursor.execute(
         """
-        SELECT title, LENGTH(title) as title_length
+        SELECT title, LENGTH(title) AS title_length
         FROM movies
         ORDER BY title_length DESC
         LIMIT 1
@@ -75,40 +74,30 @@ def get_longest_movie_title(conn):
 
 def get_most_common_genre_word(conn):
     """
-    Splits genre names and returns the most common word used across all genres.
-    Useful for seeing popular themes (e.g., 'Drama', 'Action').
+    Returns the most frequent word found across all genre names.
     """
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM genres")
     genres = cursor.fetchall()
 
     words = []
-    # Split genre names into individual words
     for (genre,) in genres:
         if genre:
             words.extend(genre.lower().split())
 
-    # If list is empty, return nothing
     if not words:
         return []
 
-    # Use Counter to find the most frequent word
-    most_common = Counter(words).most_common(1)
-    return most_common  # Returns list of (word, count)
+    return Counter(words).most_common(1)  # [(word, count)]
 
 
 def count_words_in_titles(conn):
     """
-    Counts the total number of words across all movie titles in the database.
+    Counts the total number of words across all movie titles.
     """
     cursor = conn.cursor()
     cursor.execute("SELECT title FROM movies")
     titles = cursor.fetchall()
 
-    word_count = 0
-    # Split each title into words and count them
-    for (title,) in titles:
-        if title:
-            word_count += len(title.split())
-
-    return word_count or 0  # Always return a number
+    word_count = sum(len(title.split()) for (title,) in titles if title)
+    return word_count

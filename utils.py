@@ -2,14 +2,24 @@ import sqlite3
 import json
 import os
 
+# --------------------------------------------
+# Utility functions for DB connection, printing,
+# reusable lookups, and exporting results
+# --------------------------------------------
 
-# Opens a connection to the SQLite database and returns the connection object
+
 def connect_db(path="movie.db"):
+    """
+    Opens a connection to the SQLite database.
+    Returns a connection object.
+    """
     return sqlite3.connect(path)
 
 
-# Prints query results in a clean format
 def print_results(results):
+    """
+    Prints query results (list of tuples) in a clean, readable format.
+    """
     if not results:
         print("No results found.")
         return
@@ -19,6 +29,9 @@ def print_results(results):
 
 
 def get_or_create_director(conn, name, likes):
+    """
+    Returns the director ID if they exist, otherwise inserts and returns new ID.
+    """
     cursor = conn.cursor()
     cursor.execute("SELECT id FROM directors WHERE name = ?", (name,))
     result = cursor.fetchone()
@@ -31,6 +44,9 @@ def get_or_create_director(conn, name, likes):
 
 
 def get_or_create_actor(conn, name, likes):
+    """
+    Returns the actor ID if they exist, otherwise inserts and returns new ID.
+    """
     cursor = conn.cursor()
     cursor.execute("SELECT id FROM actors WHERE name = ?", (name,))
     result = cursor.fetchone()
@@ -43,6 +59,9 @@ def get_or_create_actor(conn, name, likes):
 
 
 def get_or_create_genre(conn, name):
+    """
+    Returns the genre ID if it exists, otherwise inserts and returns new ID.
+    """
     cursor = conn.cursor()
     cursor.execute("SELECT id FROM genres WHERE name = ?", (name,))
     result = cursor.fetchone()
@@ -54,7 +73,7 @@ def get_or_create_genre(conn, name):
 
 def export_to_json(results, filename="export.json"):
     """
-    Exports results (list of tuples) to a JSON file.
+    Exports a list of tuples (results) to a .json file.
     """
     try:
         with open(filename, "w") as f:
@@ -66,7 +85,7 @@ def export_to_json(results, filename="export.json"):
 
 def export_to_html(results, filename="export.html"):
     """
-    Exports results to a simple HTML table.
+    Exports a list of tuples (results) to a .html table.
     """
     try:
         with open(filename, "w") as f:

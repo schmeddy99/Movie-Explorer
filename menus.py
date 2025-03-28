@@ -8,9 +8,13 @@ import utils
 # ------------------------------
 # Allows the user to search movies by title, director, genre, year, or rating
 def search_menu(conn):
+    """
+    Interactive CLI menu for searching the movie database.
+    Allows users to search by title, director, genre, year, or rating.
+    """
     while True:
         search_choice = input(
-            "\n--- Movie Search ---\n"
+            "\n🎬 --- Movie Search ---\n"
             "1. Search by title\n"
             "2. Search by director\n"
             "3. Filter by genre\n"
@@ -73,9 +77,13 @@ def search_menu(conn):
 # ------------------------------
 # Lets the user view grouped or calculated insights from the dataset
 def insights_menu(conn):
+    """
+    Displays grouped insights like averages, counts, and top records.
+    Useful for statistical overviews of the movie database.
+    """
     while True:
         insights_choice = input(
-            "\n--- Movie Insights ---\n"
+            "\n📊 --- Movie Insights ---\n"
             "a. Top rated movies\n"
             "b. Average rating by genre\n"
             "c. Movies per decade\n"
@@ -131,9 +139,13 @@ def insights_menu(conn):
 # ------------------------------
 # Offers random recommendations and playful statistics
 def discovery_menu(conn):
+    """
+    Offers lighthearted or surprise-based movie facts and recommendations.
+    Includes random movie picks and playful stats.
+    """
     while True:
         discovery_choices = input(
-            "\n--- Surprise & Discovery ---\n"
+            "\n🎲 --- Surprise & Discovery ---\n"
             "a. Surprise me!\n"
             "b. Longest title\n"
             "c. Common genre words\n"
@@ -175,13 +187,14 @@ def discovery_menu(conn):
 
 def offer_export(results):
     """
-    Asks the user if they want to export the results.
+    Asks the user if they want to export the displayed results.
+    Supports JSON and HTML format exports.
     """
     if not results:
         return  # Don't offer export for empty results
 
     choice = input(
-        "\nWould you like to export these results?\n"
+        "\n📤 Would you like to export these results?\n"
         "1. Yes, as JSON\n"
         "2. Yes, as HTML\n"
         "3. No, return to menu\n"
@@ -192,11 +205,13 @@ def offer_export(results):
         filename = input("Enter a filename (or press enter for export.json): ")
         filename = filename.strip() or "export.json"
         utils.export_to_json(results, filename)
+        return
 
     elif choice == "2":
         filename = input("Enter a filename (or press enter for export.html): ")
         filename = filename.strip() or "export.html"
         utils.export_to_html(results, filename)
+        return
 
     elif choice == "3":
         return

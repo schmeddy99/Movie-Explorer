@@ -1,9 +1,15 @@
 import sqlite3
 
+# --------------------------------------------
 # Contains all CREATE TABLE statements
+# Defines the normalized database schema
+# --------------------------------------------
 
 
 def create_all_tables(conn):
+    """
+    Creates all necessary tables for the normalized movie database.
+    """
     create_directors_table(conn)
     create_actors_table(conn)
     create_movies_table(conn)
@@ -13,6 +19,10 @@ def create_all_tables(conn):
 
 
 def create_movies_table(conn):
+    """
+    Creates the 'movies' table.
+    Stores movie-specific information and links to a director.
+    """
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -36,6 +46,10 @@ def create_movies_table(conn):
 
 
 def create_directors_table(conn):
+    """
+    Creates the 'directors' table.
+    Stores director names and Facebook likes.
+    """
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -49,6 +63,10 @@ def create_directors_table(conn):
 
 
 def create_actors_table(conn):
+    """
+    Creates the 'actors' table.
+    Stores actor names and Facebook likes.
+    """
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -62,6 +80,11 @@ def create_actors_table(conn):
 
 
 def create_movie_actors_table(conn):
+    """
+    Creates the 'movie_actors' table.
+    Defines a many-to-many relationship between movies and actors.
+    Stores the actor's role order (1st, 2nd, 3rd).
+    """
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -78,6 +101,10 @@ def create_movie_actors_table(conn):
 
 
 def create_genres_table(conn):
+    """
+    Creates the 'genres' table.
+    Stores distinct genre names (e.g., Comedy, Action).
+    """
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -90,6 +117,10 @@ def create_genres_table(conn):
 
 
 def create_movie_genres_table(conn):
+    """
+    Creates the 'movie_genres' table.
+    Defines a many-to-many relationship between movies and genres.
+    """
     cursor = conn.cursor()
     cursor.execute(
         """

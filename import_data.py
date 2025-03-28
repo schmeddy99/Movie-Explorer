@@ -1,20 +1,31 @@
 import csv
 import utils
 
-# Handles importing the CSV and inserting rows
+# -------------------------------------------------------------
+# import_data.py
+# -------------------------------------------------------------
+# Responsible for importing and inserting CSV data into the
+# normalized database structure (movies, genres, actors, etc).
+# -------------------------------------------------------------
 
 
 def populate_normalized_db(conn):
+    """
+    Loads data from CSV and inserts it into the normalized tables:
+    movies, directors, actors, genres, and mapping tables.
+    """
     cursor = conn.cursor()
 
     with open("data/movie_metadata.csv", "r") as f:
         reader = csv.DictReader(f)
+
         for row in reader:
-            # Clean string fields
+            # Clean string fields (removes non-breaking spaces, trims)
             clean = lambda s: (
                 s.replace("\xa0", " ").strip() if isinstance(s, str) else s
             )
 
+            # Insert or get director
             director_name = clean(row["director_name"])
             director_likes = int(row["director_facebook_likes"] or 0)
             director_id = utils.get_or_create_director(
@@ -28,7 +39,7 @@ def populate_normalized_db(conn):
                     title, year, imdb_score, gross, duration, budget,
                     content_rating, country, language, color, director_id
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """,
+                """,
                 (
                     clean(row["movie_title"]),
                     int(row["title_year"] or 0),
@@ -45,25 +56,31 @@ def populate_normalized_db(conn):
             )
             movie_id = cursor.lastrowid
 
-            # Insert actors
+            # Insert or link actors
             for i in range(1, 4):
                 actor_name = clean(row[f"actor_{i}_name"])
                 actor_likes = int(row.get(f"actor_{i}_facebook_likes") or 0)
                 if actor_name:
                     actor_id = utils.get_or_create_actor(conn, actor_name, actor_likes)
                     cursor.execute(
-                        "INSERT INTO movie_actors (movie_id, actor_id, role_order) VALUES (?, ?, ?)",
+                        """
+                        INSERT INTO movie_actors (movie_id, actor_id, role_order)
+                        VALUES (?, ?, ?)
+                        """,
                         (movie_id, actor_id, i),
                     )
 
-            # Insert genres
+            # Insert or link genres
             genre_string = clean(row["genres"])
             if genre_string:
                 genres = [g.strip() for g in genre_string.split("|") if g.strip()]
                 for genre_name in genres:
                     genre_id = utils.get_or_create_genre(conn, genre_name)
                     cursor.execute(
-                        "INSERT INTO movie_genres (movie_id, genre_id) VALUES (?, ?)",
+                        """
+                        INSERT INTO movie_genres (movie_id, genre_id)
+                        VALUES (?, ?)
+                        """,
                         (movie_id, genre_id),
                     )
 
