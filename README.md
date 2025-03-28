@@ -1,26 +1,134 @@
-# Movie
+# 🎬 Movie Explorer
 
-Current project in development to display my python and SQL skills
+A fun and educational command-line tool for searching, analyzing, and discovering movies using a real-world dataset.
+Built with **Python** and **SQLite**, this project demonstrates practical use of SQL queries, data normalization, CLI design, and export features.
 
-## Project layout
+---
 
-```movie_project/
+## 🧱 Project Layout
+
+```bash
+movie_project/
 │
 ├── main.py                # Main entry point (runs everything)
-├── schema.py              # All my CREATE TABLE statements
+├── schema.py              # All CREATE TABLE statements
 ├── import_data.py         # Code to import & clean CSV data
-├── queries.py             # Useful SQL queries (top movies, etc.)
-├── utils.py               # Helpers for cleaning text, dates, etc.
+├── queries/               # All SQL logic
+│   ├── queries.py         # Core search and analytics queries
+│   └── fun_queries.py     # Fun/random discovery queries
+├── utils.py               # Helpers for I/O, data cleaning, exports
+├── menus.py               # CLI menu handlers
 ├── data/
-│   └── movie_metadata.csv # My CSV file
-└── movie.db               # My SQLite database file (generated)
-
+│   └── movie_metadata.csv # CSV dataset
+└── movie.db               # SQLite database file (auto-generated)
 ```
 
-## Acknowledgements
+---
 
-I would like to express my sincere gratitude to [Yueming](https://www.kaggle.com/datasets/carolzhangdc/imdb-5000-movie-dataset?resource=download) for creating and sharing the IMDb 5000 Movie Dataset. Their work has been invaluable in providing the data used for this project.
+## 📊 Dataset
 
-## Project Goal
+- **Source**: [IMDb 5000 Movie Dataset](https://www.kaggle.com/datasets/carolzhangdc/imdb-5000-movie-dataset)
+- **File**: `data/movie_metadata.csv`
 
-The goal of this project is to showcase and strengthen my skills in Python and SQL through hands-on data analysis and development. I am using this project as a personal challenge and learning opportunity. In the future, I hope to expand it by creating a proper user interface (UI) to make the application more interactive and user-friendly.
+---
+
+## 🌟 Features
+
+### ⌕ Search
+
+- Search movies by:
+  - Title
+  - Director
+  - Genre
+  - Year
+  - IMDb Rating Threshold
+
+### 📊 Insights
+
+- Top-rated movies
+- Average IMDb score by genre
+- Movie count per decade
+- Most frequent director
+- Average gross by country
+
+### 🌈 Discovery
+
+- Random movie picker
+- Random movie by genre or decade
+- Longest movie title
+- Most common word in genres
+- Total word count in titles
+
+### 🔍 Export
+
+- Export results to **JSON** or **HTML** files
+
+---
+
+## 🚀 How to Run
+
+1. Clone this repo:
+
+```bash
+git clone https://github.com/yourusername/movie-explorer.git
+cd movie-explorer
+```
+
+2. Make sure Python is installed
+3. Run the app:
+
+```bash
+python main.py
+```
+
+---
+
+## 📅 Example
+
+```
+Choose an option:
+1. Search
+2. Insights
+3. Discovery
+4. Exit
+Command: 1
+
+Enter a movie title to search: inception
+
+🔍 Matching Titles:
+Inception | 2010
+```
+
+---
+
+## 🌐 Live Demo
+
+[Run on Replit](https://replit.com/join/okgxnoiwra-ahmedaosman00)
+
+---
+
+## 📝 .gitignore
+
+```
+__pycache__/
+*.pyc
+movie.db
+*.json
+*.html
+```
+
+---
+
+## 📚 Educational Value
+
+- SQL: Joins, aggregates, filtering, normalization
+- Python: Functions, modules, CLI design, file I/O
+- Clean project architecture with separation of concerns
+
+---
+
+## 🙏 Acknowledgements
+
+Special thanks to [Yueming](https://www.kaggle.com/datasets/carolzhangdc/imdb-5000-movie-dataset?resource=download) for publishing the IMDb 5000 Movie Dataset.
+
+---
