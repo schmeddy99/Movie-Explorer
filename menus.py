@@ -25,18 +25,21 @@ def search_menu(conn):
             results = queries.search_by_title(conn, title)
             print("🔎 Matching Titles:")
             utils.print_results(results)
+            offer_export(results)
 
         elif search_choice == "2":
             director = input("Enter a director to search: ")
             results = queries.search_by_director(conn, director)
             print("🎬 Movies by Director:")
             utils.print_results(results)
+            offer_export(results)
 
         elif search_choice == "3":
             genre = input("Enter a genre: ")
             results = queries.search_by_genre(conn, genre)
             print("🎭 Movies Matching Genre:")
             utils.print_results(results)
+            offer_export(results)
 
         elif search_choice == "4":
             year = input("Enter a year: ")
@@ -46,6 +49,7 @@ def search_menu(conn):
             results = queries.search_by_year(conn, int(year))
             print(f"📅 Movies from {year}:")
             utils.print_results(results)
+            offer_export(results)
 
         elif search_choice == "5":
             rating = input("Enter a minimum IMDb rating: ")
@@ -55,6 +59,7 @@ def search_menu(conn):
             results = queries.search_by_rating_threshold(conn, float(rating))
             print(f"⭐ Movies with IMDb rating > {rating}:")
             utils.print_results(results)
+            offer_export(results)
 
         elif search_choice == "6":
             break
@@ -88,26 +93,31 @@ def insights_menu(conn):
             results = queries.get_top_rated_movies(conn, int(limit))
             print(f"🏆 Top {limit} Rated Movies:")
             utils.print_results(results)
+            offer_export(results)
 
         elif insights_choice == "b":
             results = queries.get_average_rating_by_genre(conn)
             print("📊 Average IMDb Rating by Genre:")
             utils.print_results(results)
+            offer_export(results)
 
         elif insights_choice == "c":
             results = queries.get_movies_per_decade(conn)
             print("📅 Movie Counts by Decade:")
             utils.print_results(results)
+            offer_export(results)
 
         elif insights_choice == "d":
             results = queries.most_frequent_director(conn)
             print("🎬 Most Frequent Director:")
             utils.print_results(results)
+            offer_export(results)
 
         elif insights_choice == "e":
             results = queries.get_avg_gross_by_country(conn)
             print("💵 Average Gross by Country:")
             utils.print_results(results)
+            offer_export(results)
 
         elif insights_choice == "f":
             break
@@ -136,24 +146,60 @@ def discovery_menu(conn):
             results = discover.get_random_movie(conn)
             print("🎲 Your Random Movie Pick:")
             utils.print_results(results)
+            offer_export(results)
 
         elif discovery_choices == "b":
             results = discover.get_longest_movie_title(conn)
             print("🔠 Longest Movie Title:")
             utils.print_results(results)
+            offer_export(results)
 
         elif discovery_choices == "c":
             results = discover.get_most_common_genre_word(conn)
             print("🗂️ Most Common Word in Genre Names:")
             utils.print_results(results)
+            offer_export(results)
 
         elif discovery_choices == "d":
             results = discover.count_words_in_titles(conn)
             print("🔢 Total Words in All Movie Titles:")
             utils.print_results([(results,)])
+            offer_export(results)
 
         elif discovery_choices == "e":
             break
 
         else:
             print("Invalid selection. Please try again.")
+
+
+def offer_export(results):
+    """
+    Asks the user if they want to export the results.
+    """
+    if not results:
+        return  # Don't offer export for empty results
+
+    choice = input(
+        "\nWould you like to export these results?\n"
+        "1. Yes, as JSON\n"
+        "2. Yes, as HTML\n"
+        "3. No, return to menu\n"
+        "Choice: "
+    )
+
+    if choice == "1":
+        filename = input("Enter a filename (or press enter for export.json): ")
+        filename = filename.strip() or "export.json"
+        utils.export_to_json(results, filename)
+
+    elif choice == "2":
+        filename = input("Enter a filename (or press enter for export.html): ")
+        filename = filename.strip() or "export.html"
+        utils.export_to_html(results, filename)
+
+    elif choice == "3":
+        return
+
+    else:
+        print("Invalid input. Returning to menu.")
